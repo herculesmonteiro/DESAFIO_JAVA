@@ -27,25 +27,27 @@ This module demonstrates interaction with web tables. It creates a new record, e
 ### 4. ProgressBar.java
 This module tests a progress bar widget. It starts the progress, stops it before 25%, validates the progress value, then completes and resets the progress bar.
 
-### 6. Sortable.java
+### 5. Sortable.java
 This module tests drag-and-drop functionality by sorting a list of items in ascending order.
 
-### 7. create_delete_records.feature
-Feature: Criar e deletar 12 registros dinâmicos
-  Scenario: Criar e deletar 12 registros
-    Given que eu acesso a página de Web Tables
-    When eu crio 12 novos registros dinamicamente
-    Then eu devo deletar todos os registros criados
+### 6. create_delete_records.feature
+Feature: Create and delete 12 dynamic records
+ Scenario: Create and delete 12 records
+   Given that I access the Web Tables page
+   When I create 12 new records dynamically
+   Then I must delete all the created records
 
-### 8. StepDefinitions.java
+### 7. StepDefinitions.java
 The StepDefinitions.java file is part of a Cucumber test automation framework. Here's a simplified explanation of what it does:
 It defines three main steps for a test scenario:
 "Given" step: Opens the Web Tables page on the demoqa.com website.
 "When" step: Creates 12 new records dynamically by filling out a form for each record.
 "Then" step: Deletes all the created records.
 
-### 9. TestRunner.java
+### 8. TestRunner.java
 TestRunner.java sets up and launches the Cucumber tests, connecting the feature files with their corresponding step definitions and configuring the test execution environment
+
 ## Running Tests
 - Right-click on the TestRunner class and select Run As > Maven test
+
 
