@@ -3,44 +3,46 @@ package com.br.program;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.After;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-
-import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 public class StepDefinitions {
+    private WebDriver driver;
+    private WebDriverWait wait;
 
-    WebDriver driver;
-
-    // Configuração do WebDriver
-    @Given("que eu acesso a página de Web Tables")
-    public void acessarPaginaWebTables() {
+    public StepDefinitions() {
         System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver-win64\\chromedriver.exe");
-
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
-        driver.get("https://demoqa.com/");
-        driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
 
-        driver.findElement(By.xpath("//h5[text()='Elements']")).click();
-        driver.findElement(By.xpath("//span[text()='Web Tables']")).click();
-
-        // Espera para carregar a página
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
         }
     }
 
-    // Criar 12 novos registros dinamicamente
-    @When("eu crio 12 novos registros dinamicamente")
-    public void criarNovosRegistros() {
-        for (int i = 1; i <= 12; i++) {
-            driver.findElement(By.id("addNewRecordButton")).click();
+    @Given("que eu acesso a página de Web Tables")
+    public void acessarPaginaWebTables() {
+        driver.get("https://demoqa.com/");
+        driver.manage().window().maximize();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='Elements']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Web Tables']"))).click();
+    }
+
+    @When("eu crio {int} novos registros dinamicamente")
+    public void criarNovosRegistros(int quantidade) {
+        for (int i = 1; i <= quantidade; i++) {
+            wait.until(ExpectedConditions.elementToBeClickable(By.id("addNewRecordButton"))).click();
             driver.findElement(By.id("firstName")).sendKeys("Nome" + i);
             driver.findElement(By.id("lastName")).sendKeys("Sobrenome" + i);
             driver.findElement(By.id("userEmail")).sendKeys("email" + i + "@teste.com");
@@ -48,35 +50,17 @@ public class StepDefinitions {
             driver.findElement(By.id("salary")).sendKeys(String.valueOf(50000 + i * 1000));
             driver.findElement(By.id("department")).sendKeys("Departamento" + i);
             driver.findElement(By.id("submit")).click();
-
-            // Esperar o registro ser adicionado
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("modal-content")));
         }
     }
 
-    // Deletar todos os registros criados
     @Then("eu devo deletar todos os registros criados")
-    public void deletarRegistros() throws InterruptedException {
+    public void deletarRegistros() {
         for (int i = 4; i <= 15; i++) {
-        	
-        	WebElement deleteButton = driver.findElement(By.xpath("//span[@id='delete-record-" + i + "']"));
-        	
+            WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@id='delete-record-" + i + "']")));
             deleteButton.click();
-            Thread.sleep(500);
-        	
-       
-            // Esperar um pouco antes de deletar o próximo
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[@id='delete-record-" + i + "']")));
         }
-
         System.out.println("Todos os registros foram criados e deletados com sucesso!");
     }
 }

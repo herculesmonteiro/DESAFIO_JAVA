@@ -43,8 +43,8 @@ public class Sortable {
 
             // Função para trocar os dois primeiros elementos
             Actions actions = new Actions(driver);
-            WebElement firstElement = itemsLista.get(0);
-            WebElement secondElement = itemsLista.get(1);
+            WebElement firstElement = itemsLista.get(1);
+            WebElement secondElement = itemsLista.get(0);
 
             // Primeira troca
             js.executeScript("arguments[0].scrollIntoView({behavior: 'auto', block: 'center'});", firstElement);
@@ -54,8 +54,8 @@ public class Sortable {
 
             // Voltar à posição original
             itemsLista = driver.findElements(By.cssSelector(".list-group-item"));
-            firstElement = itemsLista.get(1);
-            secondElement = itemsLista.get(0);
+            firstElement = itemsLista.get(0);
+            secondElement = itemsLista.get(1);
             js.executeScript("arguments[0].scrollIntoView({behavior: 'auto', block: 'center'});", firstElement);
             Thread.sleep(500);
             actions.clickAndHold(firstElement).moveToElement(secondElement).release().perform();
@@ -64,8 +64,8 @@ public class Sortable {
 
             // Segunda troca
             itemsLista = driver.findElements(By.cssSelector(".list-group-item"));
-            firstElement = itemsLista.get(0);
-            secondElement = itemsLista.get(1);
+            firstElement = itemsLista.get(1);
+            secondElement = itemsLista.get(0);
             js.executeScript("arguments[0].scrollIntoView({behavior: 'auto', block: 'center'});", firstElement);
             Thread.sleep(500);
             actions.clickAndHold(firstElement).moveToElement(secondElement).release().perform();

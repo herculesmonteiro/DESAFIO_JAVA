@@ -55,17 +55,18 @@ public class WebTables {
             WebElement departmentField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("department")));
             departmentField.clear();
             departmentField.sendKeys("Silva");
-            // Delay de 8 segundos após editar
-            Thread.sleep(8000);
+            // Delay de 5 segundos após editar
+            Thread.sleep(5000);
             
             submitButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("submit")));
             js.executeScript("arguments[0].click();", submitButton);
-            // Delay de 8 segundos após deletar
-            Thread.sleep(8000);
+            // Delay de 5 segundos após deletar
+            Thread.sleep(5000);
             
             WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@id='delete-record-4']")));
             js.executeScript("arguments[0].click();", deleteButton);
-
+            // Delay de 5 segundos após deletar
+            Thread.sleep(5000);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,7 +8,10 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
     features = "src/test/resources/features",
     glue = "com.br.program",
-    plugin = {"pretty", "html:target/cucumber-reports"}
+    plugin = {"pretty", "html:target/cucumber-reports"},
+    monochrome = true,
+    tags = "@web_tables"
 )
 public class TestRunner {
+    // Esta classe permanece vazia e serve apenas como ponto de entrada para os testes Cucumber
 }
